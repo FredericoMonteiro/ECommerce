@@ -6,48 +6,66 @@ using System.Web.Mvc;
 
 namespace ECommerce.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class DepartmentsController : Controller
+    [Authorize(Roles = "User")]
+    public class CategoriesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
 
-        // GET: Departments
+        // GET: Categories
         public ActionResult Index()
         {
-            return View(db.Departments.ToList());
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            if (user == null)
+            {
+                return RedirectToAction("Index","Home");
+            }
+
+
+            var categories = db.Categories.Where(c => c.CompanyId == user.CompanyId);
+            return View(categories.ToList());
         }
 
-        // GET: Departments/Details/5
+        // GET: Categories/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Departments departments = db.Departments.Find(id);
-            if (departments == null)
+            Category category = db.Categories.Find(id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(departments);
+            return View(category);
         }
 
-        // GET: Departments/Create
+        // GET: Categories/Create
         public ActionResult Create()
         {
-            return View();
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var category = new Category
+            {
+                CompanyId = user.CompanyId
+            };
+            return View(category);
         }
 
-        // POST: Departments/Create
+        // POST: Categories/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DepartmentsId,Name")] Departments departments)
+        public ActionResult Create([Bind(Include = "CategoryId,Description,CompanyId")] Category category)
         {
             if (ModelState.IsValid)
             {
-                db.Departments.Add(departments);
+                db.Categories.Add(category);
                 try
                 {
                     db.SaveChanges();
@@ -55,6 +73,7 @@ namespace ECommerce.Controllers
                 }
                 catch (System.Exception ex)
                 {
+
 
                     if (ex.InnerException != null && ex.InnerException.InnerException != null &&
                         ex.InnerException.InnerException.Message.Contains("_Index"))
@@ -69,98 +88,67 @@ namespace ECommerce.Controllers
                 }
             }
 
-            return View(departments);
+            ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Name", category.CompanyId);
+            return View(category);
         }
 
-        // GET: Departments/Edit/5
+        // GET: Categories/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Departments departments = db.Departments.Find(id);
-            if (departments == null)
+            Category category = db.Categories.Find(id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(departments);
+
+            return View(category);
         }
 
-        // POST: Departments/Edit/5
+        // POST: Categories/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DepartmentsId,Name")] Departments departments)
+        public ActionResult Edit([Bind(Include = "CategoryId,Description,CompanyId")] Category category)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(departments).State = EntityState.Modified;
-                try
-                {
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                catch (System.Exception ex)
-                {
-
-                    if (ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "Can't Create duplicated data");
-
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                db.Entry(category).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            return View(departments);
+            ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Name", category.CompanyId);
+            return View(category);
         }
 
-        // GET: Departments/Delete/5
+        // GET: Categories/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Departments departments = db.Departments.Find(id);
-            if (departments == null)
+            Category category = db.Categories.Find(id);
+            if (category == null)
             {
                 return HttpNotFound();
             }
-            return View(departments);
+            return View(category);
         }
 
-        // POST: Departments/Delete/5
+        // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Departments departments = db.Departments.Find(id);
-            db.Departments.Remove(departments);
-            try
-            {
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            catch (System.Exception ex)
-            {
-                if(ex.InnerException != null && ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("REFERENCE"))
-                {
-                     ModelState.AddModelError(string.Empty, "Can't remove this Department because it has a direct relation with one or more cities");
-
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-                return View(departments);
-            }
+            Category category = db.Categories.Find(id);
+            db.Categories.Remove(category);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)

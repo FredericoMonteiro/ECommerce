@@ -53,6 +53,36 @@ namespace ECommerce.Classes
 
         }
 
+        public static List<Category> GetCategories(int companyId)
+        {
+
+            //ordenação 
+            var categories = db.Categories.Where(c => c.CompanyId == companyId).ToList();
+            categories.Add(new Category
+            {
+                CategoryId = 0,
+                Description = "[Select Category]"
+            });
+
+            return categories = categories.OrderBy(d => d.Description).ToList();
+
+        }
+
+        public static List<Tax> GetTaxes(int companyId)
+        {
+
+            //ordenação 
+            var taxes = db.Taxes.Where(c => c.CompanyId == companyId).ToList();
+            taxes.Add(new Tax
+            {
+                TaxId = 0,
+                Description = "[Select Tax]"
+            });
+
+            return taxes = taxes.OrderBy(d => d.Description).ToList();
+
+        }
+
 
         public void Dispose()
         {

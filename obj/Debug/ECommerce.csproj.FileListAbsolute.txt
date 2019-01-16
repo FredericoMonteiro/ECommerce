@@ -93,3 +93,4 @@ C:\Users\frede\source\repos\ECommerce\ECommerce\obj\Debug\ECommerce.csproj.CoreC
 C:\Users\frede\source\repos\ECommerce\ECommerce\obj\Debug\ECommerce.csproj.CopyComplete
 C:\Users\frede\source\repos\ECommerce\ECommerce\obj\Debug\ECommerce.dll
 C:\Users\frede\source\repos\ECommerce\ECommerce\obj\Debug\ECommerce.pdb
+C:\Users\frede\source\repos\ECommerce\ECommerce\bin\pt-br\System.Web.Mvc.resources.dll

@@ -8,6 +8,7 @@ using static ECommerce.Classes.UserHelper;
 
 namespace ECommerce.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private ECommerceContext db = new ECommerceContext();

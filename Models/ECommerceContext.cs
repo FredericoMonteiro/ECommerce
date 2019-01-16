@@ -24,6 +24,11 @@ namespace ECommerce.Models
         public System.Data.Entity.DbSet<ECommerce.Models.Company> Companies { get; set; }
 
         public System.Data.Entity.DbSet<ECommerce.Models.User> Users { get; set; }
-        
+
+        public System.Data.Entity.DbSet<ECommerce.Models.Category> Categories { get; set; }
+
+        public System.Data.Entity.DbSet<ECommerce.Models.Tax> Taxes { get; set; }
+
+        public System.Data.Entity.DbSet<ECommerce.Models.Products> Products { get; set; }
     }
 }
