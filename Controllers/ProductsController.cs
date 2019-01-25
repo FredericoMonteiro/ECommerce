@@ -52,7 +52,13 @@ namespace ECommerce.Controllers
             }
             ViewBag.CategoryId = new SelectList(CombosHelper.GetCategories(user.CompanyId), "CategoryId", "Description");
             ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(user.CompanyId), "TaxId", "Description");
-            return View();
+
+            var products = new Products
+            {
+                CompanyId = user.CompanyId
+            };
+
+            return View(products);
         }
 
         // POST: Products/Create
@@ -66,6 +72,24 @@ namespace ECommerce.Controllers
             {
                 db.Products.Add(products);
                 db.SaveChanges();
+
+                if (products.ImageFile != null)
+                {
+
+                    var pic = string.Empty;
+                    var folder = "~/Content/Products";
+                    var file = string.Format("{0}.jpg", products.ProductsId);
+
+                    var response = FilesHelper.UploadPhoto(products.ImageFile, folder, file);
+                    if (response)
+                    {
+                        pic = string.Format("{0}/{1}", folder, file);
+                        products.Image = pic;
+                        db.Entry(products).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -107,6 +131,22 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (products.ImageFile != null)
+                {
+
+                    var pic = string.Empty;
+                    var folder = "~/Content/Products";
+                    var file = string.Format("{0}.jpg", products.ProductsId);
+
+                    var response = FilesHelper.UploadPhoto(products.ImageFile, folder, file);
+                    if (response)
+                    {
+                        pic = string.Format("{0}/{1}", folder, file);
+                        products.Image = pic;
+                    }
+                }
+
                 db.Entry(products).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

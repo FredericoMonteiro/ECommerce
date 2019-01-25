@@ -18,7 +18,7 @@ namespace ECommerce.Models
         [MaxLength(100, ErrorMessage = "This field is limited to 100 caraters")]
         public string Description { get; set; }
 
-        [Display(Name = "Tax")]
+        [Display(Name = "Tax Value")]
         [Required(ErrorMessage = "This field is required")]
         //[Range(0,1, ErrorMessage = "Only values between 0 and 1")]
         [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
