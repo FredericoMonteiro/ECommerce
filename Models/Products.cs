@@ -41,6 +41,10 @@ namespace ECommerce.Models
         [Display(Name = "Category")]
         public int CategoryId{ get; set; }
 
+        [Display(Name = "Stock")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        public double Stock { get { return Inventory.Sum(i => i.Stock); } }
+
 
         [Display(Name = "Price")]
         [Required(ErrorMessage = "This field is required")]
@@ -60,5 +64,8 @@ namespace ECommerce.Models
         public virtual Company Company { get; set; }
         public virtual Tax Tax { get; set; }
         public virtual Category Category { get; set; }
+
+        public virtual ICollection<Inventory> Inventory { get; set; }
+
     }
 }

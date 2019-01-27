@@ -212,6 +212,7 @@
     <Compile Include="Models\Departments.cs" />
     <Compile Include="Models\ECommerceContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Products.cs" />
     <Compile Include="Models\Tax.cs" />

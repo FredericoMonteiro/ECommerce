@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace ECommerce.Models
@@ -32,5 +31,8 @@ namespace ECommerce.Models
         public System.Data.Entity.DbSet<ECommerce.Models.Products> Products { get; set; }
 
         public System.Data.Entity.DbSet<ECommerce.Models.WareHouse> WareHouses { get; set; }
+
+       
+
     }
 }
