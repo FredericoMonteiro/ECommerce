@@ -49,7 +49,7 @@ namespace ECommerce.Models
 
         public virtual ICollection<Products> Products { get; set; }
 
-
+        public virtual ICollection<Customer> Customer { get; set; }
 
 
     }

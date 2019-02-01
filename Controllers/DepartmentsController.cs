@@ -43,7 +43,7 @@ namespace ECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DepartmentsId,Name")] Departments departments)
+        public ActionResult Create(Departments departments)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +92,7 @@ namespace ECommerce.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DepartmentsId,Name")] Departments departments)
+        public ActionResult Edit(Departments departments)
         {
             if (ModelState.IsValid)
             {

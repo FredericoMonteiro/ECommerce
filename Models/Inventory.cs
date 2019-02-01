@@ -5,13 +5,13 @@ namespace ECommerce.Models
     public class Inventory
     {
         [Key]
-        [Required(ErrorMessage = "O campo Estoque ID é requerido!!")]
+        [Required(ErrorMessage = "This field is required!")]
         public int InventoryId { get; set; }
 
-        [Required(ErrorMessage = "O campo Produto é requerido!!")]
+        [Required(ErrorMessage = "This field is required!")]
         public int ProductsId { get; set; }
 
-        [Required(ErrorMessage = "O campo Armazém é requerido!!")]
+        [Required(ErrorMessage = "This field is required!")]
         public int WareHouseId { get; set; }
 
 
