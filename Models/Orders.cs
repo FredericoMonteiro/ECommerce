@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ECommerce.Models
@@ -12,6 +13,10 @@ namespace ECommerce.Models
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
         [Display(Name = "Customer")]
         public int CustomerId { get; set; }
+
+        [Required(ErrorMessage = "This field is required")]
+        [Display(Name = "Company")]
+        public int CompanyId { get; set; }
 
         [Required(ErrorMessage = "The field {0} is required")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
@@ -29,5 +34,10 @@ namespace ECommerce.Models
         public virtual Customer Customer { get; set; }
 
         public virtual State State { get; set; }
+
+        public virtual Company Company { get; set; }
+
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; }
+
     }
 }

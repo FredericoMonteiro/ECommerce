@@ -83,6 +83,21 @@ namespace ECommerce.Classes
 
         }
 
+        public static List<Customer> GetCustomer(int companyId)
+        {
+
+            //ordenação 
+            var customer = db.Customers.Where(c => c.CompanyId == companyId).ToList();
+            customer.Add(new Customer
+            {
+                CustomerId = 0,
+                FirstName = "[Select Client]"
+            });
+
+            return customer = customer.OrderBy(d => d.FirstName).ThenBy(d => d.LastName).ToList();
+
+        }
+
 
         public void Dispose()
         {

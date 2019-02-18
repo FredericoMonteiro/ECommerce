@@ -51,6 +51,8 @@ namespace ECommerce.Models
 
         public virtual ICollection<Customer> Customer { get; set; }
 
+        public virtual ICollection<Orders> Orders { get; set; }
+
 
     }
 }

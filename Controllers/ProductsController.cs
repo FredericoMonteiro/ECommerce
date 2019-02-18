@@ -7,6 +7,8 @@ using System.Web.Mvc;
 
 namespace ECommerce.Controllers
 {
+    [Authorize(Roles ="User , Admin")]
+
     public class ProductsController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
