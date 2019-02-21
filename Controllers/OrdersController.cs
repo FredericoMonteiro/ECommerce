@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ECommerce.Classes;
+using ECommerce.Models;
+using System;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using ECommerce.Classes;
-using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
@@ -16,6 +14,43 @@ namespace ECommerce.Controllers
     public class OrdersController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
+
+        // GET: Add Products 
+        public ActionResult AddProduct()
+        {
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductsId", "Description");
+
+            return View();
+        }
+
+        // POST: Add Products
+        [HttpPost]
+        public ActionResult AddProduct(AddProductView view)
+        {
+            if (ModelState.IsValid)
+            {
+                var product = db.Products.Find(view.ProductId);
+                var orderDetailsTmps = new OrderDetailTmp
+                {
+                    Description = product.Description,
+                    Price = product.Price,
+                    ProductId = product.ProductsId,
+                    Quantity = view.Quantity,
+                    TaxRate = product.Tax.Rate,
+                    UserName = User.Identity.Name
+                };
+
+                db.OrderDetailTmp.Add(orderDetailsTmps);
+                db.SaveChanges();
+                return RedirectToAction("Create");
+            }
+            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+            ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductId", "Description");
+
+            return View();
+        }
+
 
         // GET: Orders
         public ActionResult Index()

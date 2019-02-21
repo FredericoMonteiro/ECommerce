@@ -1,5 +1,6 @@
 ﻿using ECommerce.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,6 +23,8 @@ namespace ECommerce.Classes
            return departments = departments.OrderBy(d => d.Name).ToList();
   
         }
+
+       
 
         public static List<City> GetCities()
         {
@@ -95,6 +98,21 @@ namespace ECommerce.Classes
             });
 
             return customer = customer.OrderBy(d => d.FirstName).ThenBy(d => d.LastName).ToList();
+
+        }
+
+        public static List<Products> GetProducts(int companyId)
+        {
+
+            //ordenação 
+            var product = db.Products.Where(c => c.CompanyId == companyId).ToList();
+            product.Add(new Products
+            {
+                ProductsId = 0,
+                Description = "[Select Product]"
+            });
+
+            return product = product.OrderBy(d => d.Description).ToList();
 
         }
 
